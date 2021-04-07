@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: account
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank
+    username: internetBank
+    password: theSecretPassword
+    driver-class-name: org.postgresql.Driver
