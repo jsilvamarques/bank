@@ -1,6 +1,6 @@
-package br.com.impacta.bank.account.repository;
+package br.com.impacta.bank.customer.repository;
 
-import br.com.impacta.bank.account.domain.Customer;
+import br.com.impacta.bank.customer.domain.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

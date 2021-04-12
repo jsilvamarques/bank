@@ -1,6 +1,7 @@
 package br.com.impacta.bank.account.resource;
 
 import br.com.impacta.bank.account.dto.AccountDto;
+import br.com.impacta.bank.account.dto.AccountRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -14,7 +15,8 @@ import java.util.List;
 })
 public interface AccountResource {
     List<AccountDto> findAll();
+    List<AccountDto> findByCustomerId(Long customerId);
     AccountDto findById(Long id);
-    AccountDto create(AccountDto accountDto);
+    AccountDto create(AccountRequest accountRequest);
     void delete(Long id);
 }

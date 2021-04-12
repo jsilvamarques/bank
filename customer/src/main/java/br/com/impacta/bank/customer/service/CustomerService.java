@@ -1,6 +1,6 @@
-package br.com.impacta.bank.account.service;
+package br.com.impacta.bank.customer.service;
 
-import br.com.impacta.bank.account.dto.CustomerDto;
+import br.com.impacta.bank.customer.dto.CustomerDto;
 
 import java.util.List;
 

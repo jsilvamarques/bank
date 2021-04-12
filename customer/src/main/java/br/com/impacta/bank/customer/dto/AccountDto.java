@@ -1,4 +1,4 @@
-package br.com.impacta.bank.account.dto;
+package br.com.impacta.bank.customer.dto;
 
 import lombok.Data;
 
@@ -14,6 +14,7 @@ public class AccountDto {
     private BigDecimal balance;
 
     public AccountDto() {
+
     }
 
     public AccountDto(Long id, Long customerId, BigDecimal balance) {

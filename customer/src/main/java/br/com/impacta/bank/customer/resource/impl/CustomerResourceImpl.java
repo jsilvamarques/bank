@@ -1,8 +1,8 @@
-package br.com.impacta.bank.account.resource.impl;
+package br.com.impacta.bank.customer.resource.impl;
 
-import br.com.impacta.bank.account.dto.CustomerDto;
-import br.com.impacta.bank.account.resource.CustomerResource;
-import br.com.impacta.bank.account.service.impl.CustomerServiceImpl;
+import br.com.impacta.bank.customer.dto.CustomerDto;
+import br.com.impacta.bank.customer.resource.CustomerResource;
+import br.com.impacta.bank.customer.service.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

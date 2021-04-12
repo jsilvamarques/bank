@@ -1,15 +1,16 @@
 package br.com.impacta.bank.account.service;
 
 import br.com.impacta.bank.account.dto.AccountDto;
+import br.com.impacta.bank.account.dto.AccountRequest;
 
 import java.util.List;
 
 public interface AccountService {
 
-    public AccountDto create(AccountDto accountDto);
-    public List<AccountDto> findAll();
-    public AccountDto findById(Long id);
-    public List<AccountDto> findByCustomerId(Long id);
-    public void delete(Long id);
+    AccountDto create(AccountRequest accountRequest);
+    List<AccountDto> findAll();
+    AccountDto findById(Long id);
+    List<AccountDto> findByCustomerId(Long id);
+    void delete(Long id);
 
 }

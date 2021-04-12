@@ -1,10 +1,9 @@
 package br.com.impacta.bank.account.service.impl;
 
 import br.com.impacta.bank.account.domain.Account;
-import br.com.impacta.bank.account.domain.Customer;
 import br.com.impacta.bank.account.dto.AccountDto;
+import br.com.impacta.bank.account.dto.AccountRequest;
 import br.com.impacta.bank.account.repository.AccountRepository;
-import br.com.impacta.bank.account.repository.CustomerRepository;
 import br.com.impacta.bank.account.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,23 +20,18 @@ public class AccountServiceImpl implements AccountService {
     private final Logger log = LoggerFactory.getLogger(AccountServiceImpl.class);
 
     private final AccountRepository accountRepository;
-    private final CustomerRepository customerRepository;
 
-    public AccountServiceImpl(AccountRepository accountRepository, CustomerRepository customerRepository) {
+    public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-        this.customerRepository = customerRepository;
     }
 
     @Override
-    public AccountDto create(AccountDto accountDto) {
-        log.debug("Request to create Account : {}", accountDto);
-
-        Customer customer = this.customerRepository.findById(accountDto.getCustomerId())
-                .orElseThrow(() -> new IllegalStateException("Cannot find Customer with id " + accountDto.getCustomerId()));
+    public AccountDto create(AccountRequest accountRequest) {
+        log.debug("Request to create Account : {}", accountRequest);
 
         return mapToDto(
                 this.accountRepository.save(
-                        new Account(customer.getId())
+                        new Account(accountRequest.getCustomerId())
                 )
         );
     }
@@ -79,7 +73,8 @@ public class AccountServiceImpl implements AccountService {
         if (account != null) {
             return new AccountDto(
                     account.getId(),
-                    account.getCustomerId()
+                    account.getCustomerId(),
+                    account.getBalance()
             );
         }
         return null;

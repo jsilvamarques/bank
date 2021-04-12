@@ -1,6 +1,6 @@
-package br.com.impacta.bank.account.resource;
+package br.com.impacta.bank.customer.resource;
 
-import br.com.impacta.bank.account.dto.CustomerDto;
+import br.com.impacta.bank.customer.dto.CustomerDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

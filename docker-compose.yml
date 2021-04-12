@@ -1,0 +1,21 @@
+version: "3"
+services:
+  postgresql:
+    image: postgres:11.5-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=internetBank
+      - POSTGRES_PASSWORD=theSecretPassword
+      - POSTGRES_DB=bank
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 80:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+volumes:
+  pg_data:

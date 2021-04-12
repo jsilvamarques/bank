@@ -1,20 +1,23 @@
-package br.com.impacta.bank.account.service.impl;
+package br.com.impacta.bank.customer.service.impl;
 
-import br.com.impacta.bank.account.domain.Customer;
-import br.com.impacta.bank.account.dto.AccountDto;
-import br.com.impacta.bank.account.dto.CustomerDto;
-import br.com.impacta.bank.account.repository.AccountRepository;
-import br.com.impacta.bank.account.repository.CustomerRepository;
-import br.com.impacta.bank.account.service.CustomerService;
+import br.com.impacta.bank.customer.domain.Customer;
+import br.com.impacta.bank.customer.dto.AccountDto;
+import br.com.impacta.bank.customer.dto.AccountRequest;
+import br.com.impacta.bank.customer.dto.CustomerDto;
+import br.com.impacta.bank.customer.repository.AccountClient;
+import br.com.impacta.bank.customer.repository.CustomerRepository;
+import br.com.impacta.bank.customer.service.CustomerService;
+import com.google.common.collect.Sets;
 import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -23,12 +26,12 @@ public class CustomerServiceImpl implements CustomerService {
     private final Logger log = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
     private final CustomerRepository customerRepository;
-    private final AccountServiceImpl accountService;
 
+    @Autowired
+    private AccountClient accountClient;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, AccountRepository accountRepository, AccountServiceImpl accountService) {
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-        this.accountService = accountService;
     }
 
     @Override
@@ -40,16 +43,13 @@ public class CustomerServiceImpl implements CustomerService {
                 new Customer(
                         customerDto.getName(),
                         customerDto.getEmail(),
-                        customerDto.getName(),
-                        Collections.EMPTY_SET
+                        customerDto.getName()
                 )
             )
         );
 
-        newCustomer.getAccounts().add(
-                this.accountService.create(
-                        new AccountDto(newCustomer.getId())
-                )
+        newCustomer.setAccounts(List.of(
+                        this.accountClient.create(new AccountRequest(newCustomer.getId())))
         );
 
         return newCustomer;
@@ -58,17 +58,30 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<CustomerDto> findAll() {
         log.debug("Request to get all Customers");
-        return this.customerRepository.findAll()
+
+        val customerDtos = this.customerRepository.findAll()
                 .stream()
                 .map(CustomerServiceImpl::mapToDto)
                 .collect(Collectors.toList());
+
+        customerDtos.forEach(c ->
+                c.setAccounts(this.accountClient.findByCustomerId(c.getId())));
+
+        return customerDtos;
     }
 
     @Override
     @Transactional(readOnly = true)
     public CustomerDto findById(Long id) {
         log.debug("Request to get Customer : {}", id);
-        return this.customerRepository.findById(id).map(CustomerServiceImpl::mapToDto).orElse(null);
+        var customerDto = this.customerRepository.findById(id)
+                .map(CustomerServiceImpl::mapToDto)
+                .orElse(null);
+
+        if(customerDto != null)
+            customerDto.setAccounts(this.accountClient.findByCustomerId(customerDto.getId()));
+
+        return customerDto;
     }
 
     @Override
@@ -87,10 +100,10 @@ public class CustomerServiceImpl implements CustomerService {
                     customer.getId(),
                     customer.getName(),
                     customer.getEmail(),
-                    customer.getTelephone(),
-                    customer.getAccounts().stream().map(AccountServiceImpl::mapToDto).collect(Collectors.toSet())
+                    customer.getTelephone()
             );
         }
         return null;
     }
+
 }
