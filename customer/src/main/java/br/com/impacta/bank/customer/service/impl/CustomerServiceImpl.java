@@ -43,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
                 new Customer(
                         customerDto.getName(),
                         customerDto.getEmail(),
-                        customerDto.getName()
+                        customerDto.getTelephone()
                 )
             )
         );
