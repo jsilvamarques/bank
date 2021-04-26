@@ -1,11 +1,10 @@
 package br.com.impacta.bank.account.resource.impl;
 
 import br.com.impacta.bank.account.dto.BankTransactionDto;
+import br.com.impacta.bank.account.dto.Withdraw;
 import br.com.impacta.bank.account.resource.TransactionResource;
 import br.com.impacta.bank.account.service.impl.TransactionServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -29,8 +28,13 @@ public class TransactionResourceImpl implements TransactionResource {
     }
 
     @PostMapping
-    public BankTransactionDto deposit(@RequestBody BankTransactionDto accountDto) {
+    public BankTransactionDto transaction(@RequestBody BankTransactionDto accountDto) {
         return this.transactionService.create(accountDto);
+    }
+
+    @PostMapping("/withdraw")
+    public BankTransactionDto withdraw(@RequestBody Withdraw withdraw) {
+        return this.transactionService.withdraw(withdraw.getId(), withdraw.getAmount());
     }
 
     @DeleteMapping("/{id}")
