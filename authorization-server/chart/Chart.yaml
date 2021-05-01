@@ -1,0 +1,12 @@
+apiVersion: v2
+name: authorization-server
+description: Servidor de Autenticação
+
+type: application
+
+version: 0.0.0-managed
+
+dependencies:
+  - name: postgresql
+    version: '^8'
+    repository: '@stable'
