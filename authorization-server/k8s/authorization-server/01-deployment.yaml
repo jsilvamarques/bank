@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: authorization-server
-          image: jmarquessilva/authorization-server:1.0.2
+          image: jmarquessilva/authorization-server:1.0.3
           ports:
             - containerPort: 9092
           envFrom:

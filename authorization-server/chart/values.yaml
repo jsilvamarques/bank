@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: jmarquessilva/authorization-server
-  tag: 1.0.9
+  tag: 1.0.2
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -22,8 +22,6 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-externalIPs:
-  - 10.108.168.116
 
 ingress:
   enabled: true

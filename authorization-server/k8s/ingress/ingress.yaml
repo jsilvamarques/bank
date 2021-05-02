@@ -2,11 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
-  namespace: default
+  namespace: microservices
 spec:
   ingressClassName: ingress
   rules:
-    - http:
+    - host: internet-bank.com.br
+      http:
         paths:
           - path: /health
             pathType: Prefix
@@ -14,4 +15,4 @@ spec:
               service:
                 name: authorization-server-svc
                 port:
-                  number: 9092
+                  number: 80
