@@ -19,6 +19,7 @@ public class SecurityConfiguration extends ResourceServerConfigurerAdapter {
                 .anyRequest()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/**")
                 .authenticated()
                 .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('read')")

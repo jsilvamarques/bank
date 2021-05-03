@@ -19,3 +19,16 @@ security:
   oauth2:
     resource:
       userInfoUri: ${authserver.hostname}/user
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    jmx:
+      exposure:
+        include: '*'
