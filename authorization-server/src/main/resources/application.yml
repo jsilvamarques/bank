@@ -3,19 +3,18 @@ server:
 security:
   oauth2:
     client:
-      access-token-validity-seconds: 30
+      access-token-validity-seconds: 1800
       authorized-grant-types: password,refresh_token
       client-id: coderef
       client-secret: $2a$10$p9Pk0fQNAQSesI4vuvKA0OZanDD2
       resource-ids: resources
       scope: read,write
-
 spring:
   datasource:
     schema: classpath:sql/schema.sql
     data: classpath:sql/data.sql
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${POSTGRES_HOST:10.100.75.71}:5432/bank?createDatabaseIfNotExist=true
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/bank?createDatabaseIfNotExist=true
     username: internetBank
     password: theSecretPassword
   jpa:
@@ -23,17 +22,10 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: update
-      hbm2ddl:
-        auto: create-drop
     show-sql: true
     properties:
       hibernate:
-        hbm2ddl:
-          auto: create
         jdbc:
           lob:
             non_contextual_creation: true
         dialect: org.hibernate.dialect.PostgreSQL92Dialect
-
-
-POSTGRES_URL: authorization-server-postgresql

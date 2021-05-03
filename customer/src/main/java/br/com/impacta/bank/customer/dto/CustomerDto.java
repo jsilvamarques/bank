@@ -16,9 +16,20 @@ public class CustomerDto {
 
     private String telephone;
 
+    private String password;
+
     private List<AccountDto> accounts;
 
     public CustomerDto() {
+    }
+
+
+    public CustomerDto(Long id, String name, String email, String telephone, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.telephone = telephone;
+        this.password = password;
     }
 
     public CustomerDto(Long id, String name, String email, String telephone) {

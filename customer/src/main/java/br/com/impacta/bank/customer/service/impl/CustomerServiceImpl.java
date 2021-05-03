@@ -1,13 +1,13 @@
 package br.com.impacta.bank.customer.service.impl;
 
 import br.com.impacta.bank.customer.domain.Customer;
-import br.com.impacta.bank.customer.dto.AccountDto;
-import br.com.impacta.bank.customer.dto.AccountRequest;
-import br.com.impacta.bank.customer.dto.CustomerDto;
+import br.com.impacta.bank.customer.dto.*;
 import br.com.impacta.bank.customer.repository.AccountClient;
+import br.com.impacta.bank.customer.repository.AuthorizationServerClient;
 import br.com.impacta.bank.customer.repository.CustomerRepository;
 import br.com.impacta.bank.customer.service.CustomerService;
 import com.google.common.collect.Sets;
+import feign.Headers;
 import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +30,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private AccountClient accountClient;
 
+    @Autowired
+    private AuthorizationServerClient authorizationServerClient;
+
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
@@ -50,6 +53,11 @@ public class CustomerServiceImpl implements CustomerService {
 
         newCustomer.setAccounts(List.of(
                         this.accountClient.create(new AccountRequest(newCustomer.getId())))
+        );
+
+        this.authorizationServerClient.create(
+                getHeaderMap(),
+                new UserDto(customerDto.getName(), customerDto.getPassword(), customerDto.getEmail())
         );
 
         return newCustomer;
@@ -100,10 +108,32 @@ public class CustomerServiceImpl implements CustomerService {
                     customer.getId(),
                     customer.getName(),
                     customer.getEmail(),
-                    customer.getTelephone()
+                    customer.getTelephone(),
+                    customer.getPassword()
             );
         }
         return null;
     }
+
+
+
+    public Map<String, String> getHeaderMap(){
+
+        TokenDto tokenDto = this.authorizationServerClient.getToken(getTokenHeader(), "admin", "123456");
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + tokenDto.getAccess_token());
+
+        return headers;
+    }
+
+    public Map<String, String> getTokenHeader(){
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+        headers.put("Authorization", "Basic Y29kZXJlZjokMmEkMTAkcDlQazBmUU5BUVNlc0k0dnV2S0EwT1phbkREMg==");
+        return headers;
+    }
+
+
 
 }

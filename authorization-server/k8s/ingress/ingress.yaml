@@ -9,7 +9,7 @@ spec:
     - host: internet-bank.com.br
       http:
         paths:
-          - path: /health
+          - path: /
             pathType: Prefix
             backend:
               service:
