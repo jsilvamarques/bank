@@ -1,0 +1,60 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: microservices
+spec:
+  ingressClassName: ingress
+  rules:
+    - host: internet-bank.com.br
+      http:
+        paths:
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: authorization-server-svc
+                port:
+                  number: 9092
+
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
+                name: authorization-server-svc
+                port:
+                  number: 9092
+
+          - path: /api/accounts
+            pathType: Prefix
+            backend:
+              service:
+                name: account-server-svc
+                port:
+                  number: 8090
+
+          - path: /actuator/health
+            pathType: Prefix
+            backend:
+              service:
+                name: account-server-svc
+                port:
+                  number: 8090
+
+          - path: /api/customers
+            pathType: Prefix
+            backend:
+              service:
+                name: customer-server-svc
+                port:
+                  number: 8080
+
+          - path: /actuator/health
+            pathType: Prefix
+            backend:
+              service:
+                name: customer-server-svc
+                port:
+                  number: 8080
+          
+        

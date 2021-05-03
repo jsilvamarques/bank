@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-server
+  labels:
+    app: account-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: account-server
+  template:
+    metadata:
+      labels:
+        app: account-server
+    spec:
+      containers:
+        - name: account-server
+          image: nerociffer/customer:1.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: authorization-server-configmap
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+              httpGet:
+                path: /actuator/health
+                port: 8080
+              initialDelaySeconds: 15
+              periodSeconds: 20
+          resources: {}
