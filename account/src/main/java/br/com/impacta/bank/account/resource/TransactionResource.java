@@ -10,6 +10,7 @@ import java.util.List;
 public interface TransactionResource {
 
     List<BankTransactionDto> findAll();
+    List<BankTransactionDto> findAllByAccountId(Long accountId);
     BankTransactionDto findById(Long id);
     BankTransactionDto transaction(BankTransactionDto accountDto);
     BankTransactionDto withdraw(Withdraw withdraw);

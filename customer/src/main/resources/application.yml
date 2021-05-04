@@ -20,4 +20,15 @@ security:
     resource:
       userInfoUri: ${authserver.hostname}/user
 
-endpoints.health.enabled: false
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    jmx:
+      exposure:
+        include: '*'

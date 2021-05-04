@@ -20,6 +20,9 @@ public class Customer extends AbstractEntity{
 
     private String telephone;
 
+    @Transient
+    private String password;
+
     public Customer() {
 
     }
