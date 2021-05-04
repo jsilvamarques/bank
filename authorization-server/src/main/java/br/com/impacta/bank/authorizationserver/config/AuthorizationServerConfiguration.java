@@ -23,8 +23,6 @@ import javax.sql.DataSource;
 public class AuthorizationServerConfiguration extends
         AuthorizationServerConfigurerAdapter {
 
-    private static PasswordEncoder encoder;
-
     @Value("${security.oauth2.client.client-id}")
     private String clientId;
 
@@ -74,10 +72,7 @@ public class AuthorizationServerConfiguration extends
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        if (encoder == null) {
-            encoder = new BCryptPasswordEncoder();
-        }
-        return encoder;
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
     }
 }
