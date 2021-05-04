@@ -38,6 +38,18 @@ public class TransactionResourceImpl implements TransactionResource {
         return listTransaction;
     }
 
+    @Override
+    @GetMapping("/extract/{accountId}")
+    public List<BankTransactionDto> findAllByAccountId(@PathVariable Long accountId) {
+        Span newSpan = tracer.nextSpan().name("Request Transaction - findAllByAccountId").start();
+        log.debug("Request to find all");
+
+        var listTransaction = this.transactionService.findAllByAccountId(accountId);
+
+        newSpan.finish();
+        return listTransaction;
+    }
+
     @GetMapping("/{id}")
     public BankTransactionDto findById(@PathVariable Long id) {
         Span newSpan = tracer.nextSpan().name("Request Transaction - findById").start();
@@ -50,11 +62,11 @@ public class TransactionResourceImpl implements TransactionResource {
     }
 
     @PostMapping
-    public BankTransactionDto transaction(@RequestBody BankTransactionDto accountDto) {
+    public BankTransactionDto transaction(@RequestBody BankTransactionDto bankTransactionDto) {
         Span newSpan = tracer.nextSpan().name("Request Transaction - transaction").start();
-        log.debug("Request to transaction : {}", accountDto);
+        log.debug("Request to transaction : {}", bankTransactionDto);
 
-        var bankTransaction = this.transactionService.create(accountDto);
+        var bankTransaction = this.transactionService.create(bankTransactionDto);
 
         newSpan.finish();
         return bankTransaction;

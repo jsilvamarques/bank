@@ -14,7 +14,7 @@ public class BankTransactionDto {
 
     private TransactionType transactionType;
 
-    private Long accountID;
+    private Long accountId;
 
     public BankTransactionDto() {
 
@@ -24,7 +24,7 @@ public class BankTransactionDto {
         this.id = id;
         this.amount = amount;
         this.transactionType = transactionType;
-        this.accountID = accountID;
+        this.accountId = accountID;
     }
 
 }

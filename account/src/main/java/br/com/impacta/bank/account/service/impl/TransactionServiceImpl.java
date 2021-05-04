@@ -38,19 +38,21 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public BankTransactionDto create(BankTransactionDto transactionDto) {
         Span newSpan = tracer.nextSpan().name("Request Transaction Service - create").start();
-        log.debug("Request to create Transaction from : {} with {}", transactionDto.getAccountID(), transactionDto.getAmount());
+        log.debug("Request to create Transaction from : {} with {}", transactionDto.getAccountId(), transactionDto.getAmount());
 
-        Account account = this.accountRepository.findById(transactionDto.getAccountID())
-                .orElseThrow(() -> new IllegalStateException("Cannot find Customer with id " + transactionDto.getAccountID()));
+        Account account = this.accountRepository.findById(transactionDto.getAccountId())
+                .orElseThrow(() -> new IllegalStateException("Cannot find Customer with id " + transactionDto.getAccountId()));
         if(transactionDto.getTransactionType() == TransactionType.Deposit){
             account.setBalance(account.getBalance().add(transactionDto.getAmount()));
         }
         else{
-            if (account.getBalance().subtract(transactionDto.getAmount()).equals(new BigDecimal("0"))){
+            var newAmount = account.getBalance().subtract(transactionDto.getAmount()).toBigIntegerExact().doubleValue();
+            var comparete = 0D;
+
+            if (newAmount >= comparete){
                 account.setBalance(account.getBalance().subtract(transactionDto.getAmount()));
-            }
-            else {
-                throw new IllegalStateException("Cannot find Customer with id " + transactionDto.getAmount());
+            } else {
+                throw new IllegalStateException("withdrawal amount less than the balance amount");
             }
         }
 
@@ -101,6 +103,20 @@ public class TransactionServiceImpl implements TransactionService {
         log.debug("Request to get all Transactions");
 
         var listBankTransaction = this.transactionRepository.findAll()
+                .stream()
+                .map(TransactionServiceImpl::mapToDto)
+                .collect(Collectors.toList());
+
+        newSpan.finish();
+        return listBankTransaction;
+    }
+
+    @Override
+    public List<BankTransactionDto> findAllByAccountId(Long accountId) {
+        Span newSpan = tracer.nextSpan().name("Request Transaction Service - findAllByAccountId").start();
+        log.debug("Request to get all Transactions");
+
+        var listBankTransaction = this.transactionRepository.findByAccountId(accountId)
                 .stream()
                 .map(TransactionServiceImpl::mapToDto)
                 .collect(Collectors.toList());

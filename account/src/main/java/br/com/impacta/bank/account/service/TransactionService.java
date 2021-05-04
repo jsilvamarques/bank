@@ -13,5 +13,6 @@ public interface TransactionService {
     List<BankTransactionDto> findAll();
     BankTransactionDto findById(Long id);
     void delete(Long id);
+    List<BankTransactionDto> findAllByAccountId(Long accountId);
 
 }

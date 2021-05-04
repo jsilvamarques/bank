@@ -13,7 +13,7 @@ import brave.Span;
 import brave.Tracer;
 
 @RestController
-@RequestMapping("api/accounts")
+@RequestMapping("/api/accounts")
 public class AccountResourceImpl implements AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResourceImpl.class);
