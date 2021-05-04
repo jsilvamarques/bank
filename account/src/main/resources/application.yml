@@ -8,7 +8,7 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:10.100.75.71}:5432/bank?createDatabaseIfNotExist=true
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/bank?createDatabaseIfNotExist=true
     username: internetBank
     password: theSecretPassword
     driver-class-name: org.postgresql.Driver
