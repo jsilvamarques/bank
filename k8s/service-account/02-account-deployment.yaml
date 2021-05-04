@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: account-server
+  namespace: microservices
   labels:
     app: account-server
 spec:
@@ -16,22 +17,22 @@ spec:
     spec:
       containers:
         - name: account-server
-          image: nerociffer/customer:1.0
+          image: nerociffer/account:1.4
           ports:
-            - containerPort: 8080
+            - containerPort: 8090
           envFrom:
             - configMapRef:
-                name: authorization-server-configmap
+                name: account-configmap
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8080
+              port: 8090
             initialDelaySeconds: 5
             periodSeconds: 5
           livenessProbe:
               httpGet:
                 path: /actuator/health
-                port: 8080
+                port: 8090
               initialDelaySeconds: 15
               periodSeconds: 20
           resources: {}

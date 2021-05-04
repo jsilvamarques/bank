@@ -48,13 +48,5 @@ spec:
                 name: customer-server-svc
                 port:
                   number: 8080
-
-          - path: /actuator/health
-            pathType: Prefix
-            backend:
-              service:
-                name: customer-server-svc
-                port:
-                  number: 8080
           
         

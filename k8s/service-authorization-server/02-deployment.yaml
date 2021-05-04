@@ -1,38 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: account-server
+  name: authorization-server
   namespace: microservices
   labels:
-    app: account-server
+    app: authorization-server
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: account-server
+      app: authorization-server
   template:
     metadata:
       labels:
-        app: account-server
+        app: authorization-server
     spec:
       containers:
-        - name: account-server
-          image: nerociffer/account:1.3
+        - name: authorization-server
+          image: jmarquessilva/authorization-server:1.0.3
           ports:
-            - containerPort: 8090
+            - containerPort: 9092
           envFrom:
             - configMapRef:
-                name: microservices-configmap
+                name: authorization-server-configmap
           readinessProbe:
             httpGet:
-              path: /actuator/health
-              port: 8090
+              path: /health
+              port: 9092
             initialDelaySeconds: 5
             periodSeconds: 5
           livenessProbe:
               httpGet:
-                path: /actuator/health
-                port: 8090
+                path: /health
+                port: 9092
               initialDelaySeconds: 15
               periodSeconds: 20
           resources: {}
