@@ -29,6 +29,8 @@ spring:
           lob:
             non_contextual_creation: true
         dialect: org.hibernate.dialect.PostgreSQL92Dialect
+  zipkin:
+    baseUrl: "http://${ZIPKIN_HOST:localhost}:9411"
 
 management:
   endpoint:

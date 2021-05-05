@@ -8,11 +8,12 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/bank
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/bank
     username: internetBank
     password: theSecretPassword
     driver-class-name: org.postgresql.Driver
-
+  zipkin:
+    baseUrl: "http://${ZIPKIN_HOST:localhost:9411}"
 management:
   endpoint:
     health:

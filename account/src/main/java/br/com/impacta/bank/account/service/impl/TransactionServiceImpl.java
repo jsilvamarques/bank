@@ -154,7 +154,7 @@ public class TransactionServiceImpl implements TransactionService {
                     transaction.getId(),
                     transaction.getAmount(),
                     transaction.getTransactionType(),
-                    transaction.getId()
+                    transaction.getAccount().getId()
             );
         }
         return null;
