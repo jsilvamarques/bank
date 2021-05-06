@@ -5,4 +5,6 @@ metadata:
   namespace: microservices
 data:
   POSTGRES_HOST: postgres-svc
-  AUTHORIZATION_SERVER_HOST: account-server-svc
+  AUTHORIZATION_HOST: authorization-server-svc
+  ZIPKIN_HOST: zipkin-server-svc:9411
+  CONFIG_HOST: configserver-server-svc

@@ -14,10 +14,14 @@ spec:
     metadata:
       labels:
         app: account-server
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8090"
     spec:
       containers:
         - name: account-server
-          image: nerociffer/account:1.4
+          image: jmarquessilva/account:1.0.1
           ports:
             - containerPort: 8090
           envFrom:

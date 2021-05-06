@@ -17,22 +17,9 @@ spec:
     spec:
       containers:
         - name: customer-server
-          image: nerociffer/customer:1.0.1
+          image: jmarquessilva/customer:1.0.0
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
                 name: customer-configmap
-          # readinessProbe:
-          #   httpGet:
-          #     path: /actuator/health
-          #     port: 8080
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 5
-          # livenessProbe:
-          #     httpGet:
-          #       path: /actuator/health
-          #       port: 8080
-          #     initialDelaySeconds: 15
-          #     periodSeconds: 20
-          # resources: {}

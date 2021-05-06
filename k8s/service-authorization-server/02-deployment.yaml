@@ -6,7 +6,7 @@ metadata:
   labels:
     app: authorization-server
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: authorization-server
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: authorization-server
-          image: jmarquessilva/authorization-server:1.0.3
+          image: jmarquessilva/authorization-server:1.0.0
           ports:
             - containerPort: 9092
           envFrom:

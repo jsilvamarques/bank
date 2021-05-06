@@ -9,31 +9,32 @@ spec:
     - host: internet-bank.com.br
       http:
         paths:
-          - path: /health
+
+          - path: /prometheus
             pathType: Prefix
             backend:
               service:
-                name: authorization-server-svc
+                name: prometheus
                 port:
-                  number: 9092
-
-          - path: /user
+                  number: 9090
+          
+          - path: /grafana
             pathType: Prefix
             backend:
               service:
-                name: authorization-server-svc
+                name: grafana-server-svc
                 port:
-                  number: 9092
+                  number: 3000
 
-          - path: /api/accounts
+          - path: /zipkin
             pathType: Prefix
             backend:
               service:
-                name: account-server-svc
+                name: zipkin-server-svc
                 port:
-                  number: 8090
+                  number: 9411
 
-          - path: /actuator/health
+          - path: /api
             pathType: Prefix
             backend:
               service:
@@ -48,5 +49,11 @@ spec:
                 name: customer-server-svc
                 port:
                   number: 8080
-          
-        
+            
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: authorization-server-svc
+                port:
+                  number: 9092
