@@ -19,7 +19,7 @@ public abstract class AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long id = 0L;
 
     @CreatedDate
     @Column(name = "CREATED_DATE", nullable = false)

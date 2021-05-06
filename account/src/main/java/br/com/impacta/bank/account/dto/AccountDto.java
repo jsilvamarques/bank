@@ -2,6 +2,8 @@ package br.com.impacta.bank.account.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class AccountDto {
 
@@ -9,12 +11,14 @@ public class AccountDto {
 
     private Long customerId;
 
-    public AccountDto(Long customerId) {
-        this.customerId = customerId;
+    private BigDecimal balance;
+
+    public AccountDto() {
     }
 
-    public AccountDto(Long id, Long customerId) {
+    public AccountDto(Long id, Long customerId, BigDecimal balance) {
         this.id = id;
         this.customerId = customerId;
+        this.balance = balance;
     }
 }

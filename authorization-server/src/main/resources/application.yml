@@ -1,0 +1,46 @@
+server:
+  port: 9092
+security:
+  oauth2:
+    client:
+      access-token-validity-seconds: 1800
+      authorized-grant-types: password,refresh_token
+      client-id: coderef
+      client-secret: $2a$10$p9Pk0fQNAQSesI4vuvKA0OZanDD2
+      resource-ids: resources
+      scope: read,write
+spring:
+  datasource:
+    schema: classpath:sql/schema.sql
+    data: classpath:sql/data.sql
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/bank?createDatabaseIfNotExist=true
+    username: internetBank
+    password: theSecretPassword
+  jpa:
+    database: POSTGRESQL
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQL92Dialect
+  zipkin:
+    baseUrl: "http://${ZIPKIN_HOST:localhost}:9411"
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    jmx:
+      exposure:
+        include: '*'
