@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-server
+  namespace: microservices
+  labels:
+    app: customer-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: customer-server
+  template:
+    metadata:
+      labels:
+        app: customer-server
+    spec:
+      containers:
+        - name: customer-server
+          image: jmarquessilva/customer:1.0.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: customer-configmap

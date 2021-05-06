@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-server
+  namespace: microservices
+  labels:
+    app: account-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: account-server
+  template:
+    metadata:
+      labels:
+        app: account-server
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8090"
+    spec:
+      containers:
+        - name: account-server
+          image: jmarquessilva/account:1.0.1
+          ports:
+            - containerPort: 8090
+          envFrom:
+            - configMapRef:
+                name: account-configmap
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8090
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+              httpGet:
+                path: /actuator/health
+                port: 8090
+              initialDelaySeconds: 15
+              periodSeconds: 20
+          resources: {}

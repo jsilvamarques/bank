@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipkin-server
+  namespace: microservices
+  labels:
+    app: zipkin-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zipkin-server
+  template:
+    metadata:
+      labels:
+        app: zipkin-server
+    spec:
+      containers:
+        - name: zipkin-server
+          image: openzipkin/zipkin
+          ports:
+            - containerPort: 9411

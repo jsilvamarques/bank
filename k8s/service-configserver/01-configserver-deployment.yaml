@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configserver-server
+  namespace: microservices
+  labels:
+    app: configserver-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: configserver-server
+  template:
+    metadata:
+      labels:
+        app: configserver-server
+    spec:
+      containers:
+        - name: configserver-server
+          image: jmarquessilva/configserver:1.0.0
+          ports:
+            - containerPort: 8888

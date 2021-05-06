@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: authorization-server-svc
+  namespace: microservices
+  labels:
+    app: authorization-server
+spec:
+  type: ClusterIP
+  selector:
+    app: authorization-server
+  ports:
+    - port: 9092
+      targetPort: 9092

@@ -1,0 +1,59 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: microservices
+spec:
+  ingressClassName: ingress
+  rules:
+    - host: internet-bank.com.br
+      http:
+        paths:
+
+          - path: /prometheus
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus
+                port:
+                  number: 9090
+          
+          - path: /grafana
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana-server-svc
+                port:
+                  number: 3000
+
+          - path: /zipkin
+            pathType: Prefix
+            backend:
+              service:
+                name: zipkin-server-svc
+                port:
+                  number: 9411
+
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: account-server-svc
+                port:
+                  number: 8090
+
+          - path: /api/customers
+            pathType: Prefix
+            backend:
+              service:
+                name: customer-server-svc
+                port:
+                  number: 8080
+            
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: authorization-server-svc
+                port:
+                  number: 9092
